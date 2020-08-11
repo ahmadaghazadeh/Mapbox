@@ -66,6 +66,7 @@ public class Mapbox extends CordovaPlugin {
   private static final String ACTION_SET_BOUNDS = "setBounds";
   private static final String ACTION_GET_TILT = "getTilt";
   private static final String ACTION_SET_TILT = "setTilt";
+  private static final String ACTION_SET_OFFLINE = "setOffline";
   private static final String ACTION_ANIMATE_CAMERA = "animateCamera";
   private static final String ACTION_ON_REGION_WILL_CHANGE = "onRegionWillChange";
   private static final String ACTION_ON_REGION_IS_CHANGING = "onRegionIsChanging";
@@ -187,7 +188,36 @@ public class Mapbox extends CordovaPlugin {
             callbackContext.success();
           }
         });
+      } else if (ACTION_SET_OFFLINE.equals(action)) {
+         if (mapView != null) {
+          final JSONObject options = args.getJSONObject(0);
+          final JSONObject northEast = options.isNull("northEast") ? null : options.getJSONObject("northEast");
+          final JSONObject southWest = options.isNull("southWest") ? null : options.getJSONObject("southWest");
+          final int minZoom  = options.isNull("minZoom") ? null : options.getInt("minZoom");
+          final int maxZoom  = options.isNull("maxZoom") ? null : options.getInt("maxZoom");
+ 
+          cordova.getActivity().runOnUiThread(new Runnable() {
+              @Override
+              public void run() {
+                final double north = northEast.getDouble("lat");
+                final double east = northEast.getDouble("lng");
+                final double south = southWest.getDouble("lat");
+                final double west = southWest.getDouble("lng");
 
+                OfflineTilePyramidRegionDefinition definition = new OfflineTilePyramidRegionDefinition(
+                mapView.getStyleUrl(),
+                new LatLngBounds.Builder()
+                .include(new LatLng(north, east))
+                .include(new LatLng(south, west))
+                .build(),
+                minZoom,
+                maxZoom,
+                getResources().getDisplayMetrics().density
+                );
+                callbackContext.success();
+              }
+            });
+         }
       } else if (ACTION_HIDE.equals(action)) {
         if (mapView != null) {
 

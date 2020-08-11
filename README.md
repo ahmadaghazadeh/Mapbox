@@ -1,4 +1,5 @@
-# Mapbox Cordova Plugin
+# Mapbox Cordova Plugin Offile(Add offline mode)
+
 by [Telerik](https://www.telerik.com) / [Eddy Verbruggen](http://twitter.com/eddyverbruggen)
 
 ## 0. Index
@@ -13,7 +14,7 @@ by [Telerik](https://www.telerik.com) / [Eddy Verbruggen](http://twitter.com/edd
 
 Use Mapbox - an OpenGL powered vector-based native mapping solution - in your Cordova / PhoneGap app.
 
-iOS and Android are fully supported.
+iOS and Android(only offline in andorid) are fully supported.
 
 ## 2. Screenshots
 
@@ -27,15 +28,16 @@ iOS and Android are fully supported.
 
 <img src="https://raw.githubusercontent.com/Telerik-Verified-Plugins/Mapbox/master/screenshots/android/android-marker-amsterdam.png" width="400"/>
 
-
 ## 3. Installation
 
 npm (latest stable)
+
 ```
 $ cordova plugin add cordova-plugin-mapbox --variable ACCESS_TOKEN=your.access.token
 ```
 
 Github master (lastest develop)
+
 ```
 $ cordova plugin add https://github.com/Telerik-Verified-Plugins/Mapbox --variable ACCESS_TOKEN=your.access.token
 ```
@@ -43,6 +45,21 @@ $ cordova plugin add https://github.com/Telerik-Verified-Plugins/Mapbox --variab
 Mapbox.js is brought in automatically. There is no need to change or add anything in your html.
 
 ## 4. Usage
+
+```
+Mapbox.setOffline({
+    northEast: {
+        'lat': 38.0800358,
+        'lng': 46.1393528
+    },
+    southWest: {
+        'lat': 38.0341383,
+        'lng': 46.3620926
+    },
+    minZoom: 1,
+    minZoom: 10
+});
+```
 
 [We've documented the Mapbox plugin API here.](http://plugins.telerik.com/cordova/plugin/mapbox)
 
