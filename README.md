@@ -30,16 +30,8 @@ iOS and Android(only offline in andorid) are fully supported.
 
 ## 3. Installation
 
-npm (latest stable)
-
 ```
-$ cordova plugin add cordova-plugin-mapbox --variable ACCESS_TOKEN=your.access.token
-```
-
-Github master (lastest develop)
-
-```
-$ cordova plugin add https://github.com/Telerik-Verified-Plugins/Mapbox --variable ACCESS_TOKEN=your.access.token
+$ cordova plugin add https://github.com/ahmadaghazadeh/Mapbox.git --variable ACCESS_TOKEN=your.access.token
 ```
 
 Mapbox.js is brought in automatically. There is no need to change or add anything in your html.
