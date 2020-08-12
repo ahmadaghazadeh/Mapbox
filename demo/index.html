@@ -21,26 +21,30 @@
             <br />
             <button onclick="showMap()">Show</button>
         </div>
-        <div style="position:absolute; bottom:0; background-color: #eee">
-            <button onclick="animateCamera()">Camera</button>
-            <button onclick="addMarkers()">Markers</button>
-            <button onclick="removeAllMarkers()">Remove All Markers</button>
-            <!--button onclick="addGeoJSON()">Add GeoJSON</button-->
-            <button onclick="addPolygon()">Poly</button>
-            <button onclick="hideMap()">hide</button><br /><br />
-            <button onclick="getZoomLevel()">getZoom</button>
-            <button onclick="zoomIn()">zoom +</button>
-            <button onclick="zoomOut()">zoom -</button><br /><br />
+        <div style="bottom:0; background-color: #eee">
+            <!--            <button onclick="animateCamera()">Camera</button>-->
+            <!--            <button onclick="addMarkers()">Markers</button>-->
+            <!--            <button onclick="removeAllMarkers()">Remove All Markers</button>-->
+            <!--            &lt;!&ndash;button onclick="addGeoJSON()">Add GeoJSON</button&ndash;&gt;-->
+            <!--            <button onclick="addPolygon()">Poly</button>-->
+            <!--            <button onclick="hideMap()">hide</button><br /><br />-->
+            <!--            <button onclick="getZoomLevel()">getZoom</button>-->
+            <!--            <button onclick="zoomIn()">zoom +</button>-->
+            <!--            <button onclick="zoomOut()">zoom -</button><br /><br />-->
             <button onclick="setCenter()">set center</button>
-            <button onclick="getCenter()">get center</button>
+            <!--            <button onclick="getCenter()">get center</button>-->
             <button onclick="setBounds()">set bounds</button>
-            <button onclick="getBounds()">get bounds</button>
-            <button onclick="setOffile()">set Offline</button>
-            <button onclick="setTilt()">set tilt</button>
-            <button onclick="getTilt()">get tilt</button><br /><br />
-            <button onclick="screen2Coords({'x': window.innerWidth/2,'y': window.innerHeight/2})">ctr2coords</button>
-            <button onclick="coords2Screen({'lat': 52.3732160,'lng': 4.8941680})">ctr2screen</button>
-            <button onclick="hideMap()">hide</button>
+            <!--            <button onclick="getBounds()">get bounds</button>-->
+            <button onclick="setOffline()">set Offline</button>
+            <!--            <button onclick="setTilt()">set tilt</button>-->
+            <!--            <button onclick="getTilt()">get tilt</button><br /><br />-->
+            <!--            <button onclick="screen2Coords({'x': window.innerWidth/2,'y': window.innerHeight/2})">ctr2coords</button>-->
+            <!--            <button onclick="coords2Screen({'lat': 52.3732160,'lng': 4.8941680})">ctr2screen</button>-->
+            <!--            <button onclick="hideMap()">hide</button>-->
+        </div>
+
+        <div id="percent">
+
         </div>
     </div>
 
@@ -114,7 +118,7 @@
 
         function showMap() {
             Mapbox.show({
-                    style: 'emerald',
+                    style: 'light',
                     margins: {
                         'left': 0,
                         'right': 0,
@@ -189,17 +193,23 @@
 
         function setOffline() {
             Mapbox.setOffline({
-                northEast: {
-                    'lat': 52.3832160,
-                    'lng': 4.8991680
+                    northEast: {
+                        'lat': 56.0601819,
+                        'lng': -132.2415373
+                    },
+                    southWest: {
+                        'lat': 50.7689999,
+                        'lng': -128.7037802
+                    },
+                    minZoom: 1,
+                    maxZoom: 10,
+                    regionName: 'BC Canada'
+                }, function(result) {
+                    document.getElementById("percent").innerHTML = result
                 },
-                southWest: {
-                    'lat': 52.3832160,
-                    'lng': 4.8991680
-                },
-                minZoom: 1,
-                minZoom: 10
-            });
+                function(error) {
+                    alert(error);
+                });
         }
 
         function addPolygon() {
@@ -288,7 +298,5 @@
         }
     </script>
 </body>
-
-</html>
 
 </html>
