@@ -40,16 +40,22 @@ Mapbox.js is brought in automatically. There is no need to change or add anythin
 
 ```
 Mapbox.setOffline({
-    northEast: {
-        'lat': 38.0800358,
-        'lng': 46.1393528
-    },
-    southWest: {
-        'lat': 38.0341383,
-        'lng': 46.3620926
-    },
-    minZoom: 1,
-    minZoom: 10
+northEast: {
+    'lat':56.0601819,
+    'lng': -132.2415373
+},
+southWest: {
+    'lat':  50.7689999,
+    'lng': -128.7037802
+},
+minZoom: 1,
+maxZoom: 10,
+regionName:'BC Canada'
+},function(result) {
+    document.getElementById("percent").innerHTML =result
+},
+function(error) {
+    alert(error);
 });
 ```
 
