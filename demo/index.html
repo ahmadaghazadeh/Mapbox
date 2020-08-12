@@ -194,16 +194,17 @@
         function setOffline() {
             Mapbox.setOffline({
                     northEast: {
-                        'lat': 56.0601819,
-                        'lng': -132.2415373
+                        lat: 56.0601819,
+                        lng: -132.2415373,
                     },
                     southWest: {
-                        'lat': 50.7689999,
-                        'lng': -128.7037802
+                        lat: 50.7689999,
+                        lng: -128.7037802,
                     },
                     minZoom: 1,
-                    maxZoom: 10,
-                    regionName: 'BC Canada'
+                    maxZoom: 18,
+                    regionName: "BC Canada",
+                    style: "mapbox://styles/mapbox/satellite-streets-v11"
                 }, function(result) {
                     document.getElementById("percent").innerHTML = result
                 },

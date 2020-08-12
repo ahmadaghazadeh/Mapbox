@@ -14,7 +14,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 
-import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
 import com.mapbox.mapboxsdk.annotations.Marker;
@@ -24,7 +23,6 @@ import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.geometry.LatLngBounds;
 import com.mapbox.mapboxsdk.location.LocationComponent;
 import com.mapbox.mapboxsdk.location.LocationComponentActivationOptions;
-import com.mapbox.mapboxsdk.location.LocationComponentOptions;
 import com.mapbox.mapboxsdk.location.modes.CameraMode;
 import com.mapbox.mapboxsdk.location.modes.RenderMode;
 import com.mapbox.mapboxsdk.maps.MapView;
@@ -51,15 +49,13 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import io.cordova.hellocordova.R;
 
-import static org.apache.cordova.Whitelist.TAG;
 
 
 // TODO for screen rotation, see https://www.mapbox.com/mapbox-android-sdk/#screen-rotation
 // TODO fox Xwalk compat, see nativepagetransitions plugin
 // TODO look at demo app: https://github.com/mapbox/mapbox-gl-native/blob/master/android/java/MapboxGLAndroidSDKTestApp/src/main/java/com/mapbox/mapboxgl/testapp/MainActivity.java
-public class MapBox extends CordovaPlugin {
+public class Mapbox extends CordovaPlugin {
 
     public static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     public static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
@@ -76,6 +72,7 @@ public class MapBox extends CordovaPlugin {
     private static final String ACTION_ADD_MARKERS = "addMarkers";
     private static final String ACTION_REMOVE_ALL_MARKERS = "removeAllMarkers";
     private static final String ACTION_ADD_MARKER_CALLBACK = "addMarkerCallback";
+    private static final String TAG = "Mapbox";
     // TODO:
     // private static final String ACTION_REMOVE_MARKER_CALLBACK = "removeMarkerCallback";
     private static final String ACTION_ADD_POLYGON = "addPolygon";
@@ -131,7 +128,7 @@ public class MapBox extends CordovaPlugin {
         try {
             if (ACTION_SHOW.equals(action)) {
                 final JSONObject options = args.getJSONObject(0);
-                final String style = getStyle(options.optString("style"));
+                final String style = options.optString("style");
 
                 final JSONObject margins = options.isNull("margins") ? null : options.getJSONObject("margins");
                 final int left = applyRetinaFactor(margins == null || margins.isNull("left") ? 0 : margins.getInt("left"));
@@ -150,7 +147,7 @@ public class MapBox extends CordovaPlugin {
                             callbackContext.error(MAPBOX_ACCESSTOKEN_RESOURCE_KEY + " not set in strings.xml");
                             return;
                         }
-                        Mapbox.getInstance(webView.getContext(), accessToken);
+                        com.mapbox.mapboxsdk.Mapbox.getInstance(webView.getContext(), accessToken);
                         mapView = new MapView(webView.getContext());
                         //accessToken
 
@@ -230,7 +227,7 @@ public class MapBox extends CordovaPlugin {
                     final int minZoom = options.isNull("minZoom") ? 1 : options.getInt("minZoom");
                     final int maxZoom = options.isNull("maxZoom") ? 15 : options.getInt("maxZoom");
                     final String regionName = options.isNull("regionName") ? "Map" : options.getString("regionName");
-
+                    final String style = options.isNull("style") ?  Style.LIGHT : options.getString("style");
                     cordova.getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -255,7 +252,7 @@ public class MapBox extends CordovaPlugin {
 
                                 OfflineManager offlineManager = OfflineManager.getInstance(webView.getContext());
                                 OfflineTilePyramidRegionDefinition definition = new OfflineTilePyramidRegionDefinition(
-                                        Style.LIGHT,
+                                        style,
                                         new LatLngBounds.Builder()
                                                 .include(new LatLng(north, east))
                                                 .include(new LatLng(south, west))
@@ -296,8 +293,6 @@ public class MapBox extends CordovaPlugin {
                                                                     0.0;
 
                                                             if (status.isComplete()) {
-// Download complete
-
                                                                 sendPluginResult(callbackContext,"Region downloaded successfully.");
                                                             } else if (status.isRequiredResourceCountPrecise()) {
                                                                 sendPluginResult(callbackContext,String.format("%.2f Percent Downloaded", percentage));
